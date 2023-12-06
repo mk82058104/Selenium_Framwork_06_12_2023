@@ -7,30 +7,33 @@ import org.openqa.selenium.support.FindBy;
 
 public class LoginFindBy {
 	WebDriver driver;
-	
+
 	@FindBy(id="nav-link-accountList-nav-line-1")
 	WebElement helloSign;
-	
+
 	@FindBy(xpath = "//div[@id='nav-flyout-ya-signin']//span[@class='nav-action-inner'][normalize-space()='Sign in']")
 	WebElement signButton;
-	
+
 	@FindBy(id = "ap_email")
 	WebElement userName;
-	
+
 	@FindBy(id = "continue")
 	WebElement conitueButton;
-	
+
 	@FindBy(id = "ap_password")
 	WebElement userPassword;
-	
+
 	@FindBy(id = "signInSubmit")
 	WebElement signInButton;
-	
-	
+
+	@FindBy(xpath = "//h4[normalize-space()='There was a problem']")
+	WebElement invalidUserNameErrorMessage;
+
+
 	public LoginFindBy(WebDriver driver) {
 		this.driver=driver;
 	}
-	
+
 	public void loginApp(String username,String password) {
 		Actions act=new Actions(driver);
 		act.moveToElement(helloSign).perform();
@@ -39,7 +42,21 @@ public class LoginFindBy {
 		conitueButton.click();
 		userPassword.sendKeys(password);
 		signInButton.click();
-		
+
 	}
+
+	public String getInvalidUserNameErrorMessage(String username) {
+		Actions act=new Actions(driver);
+		act.moveToElement(helloSign).perform();
+		signButton.click();
+		userName.sendKeys(username);
+		conitueButton.click();
+		String actualinvalidUserNameErrorMessage=invalidUserNameErrorMessage.getText();
+		return actualinvalidUserNameErrorMessage;
+
+
+	}
+
+
 
 }
